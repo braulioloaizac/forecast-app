@@ -11,7 +11,7 @@ $( "button" ).on( "click", function(event) {
 
 
 var getCityLocation = function(cityName){
-    var requestUrlCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&appid=d935de6f7be9625e1623fe87ae068e56";
+    var requestUrlCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&appid=9013afa64d3ec46d7ba514e0136c0fba";
     //Makes a request to the weather API
     fetch(requestUrlCity).then(function(response){
         if (response.ok){
@@ -22,19 +22,19 @@ var getCityLocation = function(cityName){
             })
         }
         else{
-            alert("There was a problem with your request!");
+            alert("Bad request");
         }
     })
 };
 
 
 var getCityWeather = function(lon, lat){
-    var requestUrlWeather = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=minutely,hourly&appid=d935de6f7be9625e1623fe87ae068e56";
+    var requestUrlWeather = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=minutely,hourly&appid=9013afa64d3ec46d7ba514e0136c0fba";
     fetch(requestUrlWeather).then(function(response){
         if (response.ok){
             response.json().then(function(data){
-                console.log(data)
-                setInfo();
+    
+                setInfo(data);
             })
         }
         else{
@@ -43,6 +43,21 @@ var getCityWeather = function(lon, lat){
     })
 }
 
-var setInfo = function(){
+var setInfo = function(data){
+    console.log(data)
+    $("#city").text(cityName);
+    
+    $("#temp-0").text(data.current.temp);
+    $("#wind-0").text(data.current.wind_speed);
+    $("#hum-0").text(data.current.humidity);
+    $("#uvIndex").text(data.current.uvi);
 
+    for (var i = 1; i <= 5; i++){
+        $("#temp-"+i).text(data.daily[i-1].temp.day);
+        $("#wind-"+i).text(data.daily[i-1].wind_speed);
+        $("#hum-"+i).text(data.daily[i-1].humidity);
+    }
+
+    $("#forecast").removeClass("hide");
+    
 }

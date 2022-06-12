@@ -1,4 +1,5 @@
-var cityName = ""
+var cityName = "";
+var actualDate = "";
 
 $( "button" ).on( "click", function(event) {
     event.preventDefault();
@@ -44,20 +45,40 @@ var getCityWeather = function(lon, lat){
 }
 
 var setInfo = function(data){
-    console.log(data)
-    $("#city").text(cityName);
     
+    console.log(data)
+    //Gets the actual date from the dt value
+    timeConverter(data.current.dt);
+
+    $("#city").text(cityName + " ("+actualDate+")" );
     $("#temp-0").text(data.current.temp);
     $("#wind-0").text(data.current.wind_speed);
     $("#hum-0").text(data.current.humidity);
     $("#uvIndex").text(data.current.uvi);
 
     for (var i = 1; i <= 5; i++){
-        $("#temp-"+i).text(data.daily[i-1].temp.day);
-        $("#wind-"+i).text(data.daily[i-1].wind_speed);
-        $("#hum-"+i).text(data.daily[i-1].humidity);
+        //Sets the date of the 5 next days
+        var date = data.daily[i].dt;
+        timeConverter(date);
+        $("#date-"+i).text(actualDate)
+        //Shows each day parameters
+        $("#temp-"+i).text(data.daily[i].temp.day);
+        $("#wind-"+i).text(data.daily[i].wind_speed);
+        $("#hum-"+i).text(data.daily[i].humidity);
     }
 
     $("#forecast").removeClass("hide");
     
 }
+
+function timeConverter(UNIX_timestamp){
+    //Object date to convert unix timestamp to a readable date
+    var a = new Date(UNIX_timestamp * 1000);
+    var year = a.getFullYear();
+    //Months start in 0
+    var month = a.getMonth() + 1;
+    var date = a.getDate();
+    //Format the date
+    actualDate = `${month}/${date}/${year}`;
+  }
+  

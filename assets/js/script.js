@@ -7,7 +7,6 @@ $( "button" ).on( "click", function(event) {
     cityName= $("input").val().trim();
     $("input").text = "";
     getCityLocation(cityName);
-
 } );
 
 
@@ -36,6 +35,7 @@ var getCityWeather = function(lon, lat){
             response.json().then(function(data){
     
                 setInfo(data);
+                console.log(data)
             })
         }
         else{
@@ -46,28 +46,41 @@ var getCityWeather = function(lon, lat){
 
 var setInfo = function(data){
     
-    console.log(data)
     //Gets the actual date from the dt value
     timeConverter(data.current.dt);
 
     $("#city").text(cityName + " ("+actualDate+")" );
+
+    //Gets icon image
+    var icon = data.current.weather[0].icon
+    $("#icon").attr("src", "http://openweathermap.org/img/wn/"+ icon +"@2x.png");
+    
+    //Shows the current temperature in farenheit degrees
     $("#temp-0").text(data.current.temp);
+    //Shows the current temperature in mph
     $("#wind-0").text(data.current.wind_speed);
     $("#hum-0").text(data.current.humidity);
     $("#uvIndex").text(data.current.uvi);
 
     for (var i = 1; i <= 5; i++){
+
         //Sets the date of the 5 next days
         var date = data.daily[i].dt;
         timeConverter(date);
         $("#date-"+i).text(actualDate)
+        
+        var iconDay = data.daily[i].weather[0].icon
+        $("#icon-"+i).attr("src", "http://openweathermap.org/img/wn/"+ iconDay +"@2x.png");
+        
         //Shows each day parameters
         $("#temp-"+i).text(data.daily[i].temp.day);
         $("#wind-"+i).text(data.daily[i].wind_speed);
         $("#hum-"+i).text(data.daily[i].humidity);
     }
-
+    //Shows the info part of the page
     $("#forecast").removeClass("hide");
+
+
     
 }
 

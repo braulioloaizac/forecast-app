@@ -1,11 +1,24 @@
 var cityName = "";
 var actualDate = "";
+//Gets the cities array from localStorage
+var cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+
+var searchHistory = function(){
+    for(var i = 0; i < cities.length; i++){
+        var newButton = $('<button type="button" class="btn newBtn">'+cities[i]+'</button>');
+        $("#search").append(newButton);
+
+    }
+}
+
+searchHistory();
 
 $( "button" ).on( "click", function(event) {
     event.preventDefault();
     //Gets the text written by the user
     cityName= $("input").val().trim();
-    $("input").text = "";
+    $("input").val('');
     getCityLocation(cityName);
 } );
 
@@ -19,6 +32,8 @@ var getCityLocation = function(cityName){
                 var long = data[0].lon;
                 var lat = data[0].lat
                 getCityWeather(long, lat);
+                var newButton = $('<button type="button" class="btn newBtn">'+cityName+'</button>');
+                $("#search").append(newButton);
             })
         }
         else{
@@ -69,6 +84,7 @@ var setInfo = function(data){
         timeConverter(date);
         $("#date-"+i).text(actualDate)
         
+        //Sets the icon for each day
         var iconDay = data.daily[i].weather[0].icon
         $("#icon-"+i).attr("src", "http://openweathermap.org/img/wn/"+ iconDay +"@2x.png");
         
@@ -79,9 +95,8 @@ var setInfo = function(data){
     }
     //Shows the info part of the page
     $("#forecast").removeClass("hide");
+    saveSearch();
 
-
-    
 }
 
 function timeConverter(UNIX_timestamp){
@@ -94,4 +109,18 @@ function timeConverter(UNIX_timestamp){
     //Format the date
     actualDate = `${month}/${date}/${year}`;
   }
+
+
+function saveSearch() {
+
+   //Checks if that the box isn't empty
+   if (cityName !== "") {
+       
+       //Add the new city into the array
+       cities.push(cityName);
+       //Saves the array
+       localStorage.setItem("cities", JSON.stringify(cities));
+   }
+ }
+
   

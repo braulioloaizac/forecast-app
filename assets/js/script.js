@@ -116,6 +116,8 @@ var getCityWeather = function(lon, lat){
 
 var setInfo = function(data){
     
+    $("pre").removeClass();
+
     //Gets the actual date from the dt value
     timeConverter(data.current.dt);
 
@@ -130,7 +132,23 @@ var setInfo = function(data){
     //Shows the current temperature in mph
     $("#wind-0").text(data.current.wind_speed);
     $("#hum-0").text(data.current.humidity);
-    $("#uvIndex").text(data.current.uvi);
+
+    var uvIndex = data.current.uvi
+    $("#uvIndex").text(uvIndex);
+
+    console.log(uvIndex)
+    //Sets the color according the uvIndex
+    if(uvIndex < 3){
+        $("pre").addClass("uvIndexFav");   
+    }
+    else if( (3 <= uvIndex) && (uvIndex < 6) ){
+        $("pre").addClass("uvIndexMod");   
+    }
+    else{
+        $("pre").addClass("uvIndexSev");   
+    }
+    
+
 
     for (var i = 1; i <= 5; i++){
 

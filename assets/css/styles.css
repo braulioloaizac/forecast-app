@@ -112,3 +112,25 @@ form{
 .hide{
      display: none; 
 }
+
+
+.uvIndexFav{
+    display: inline;
+    background-color: green;
+    border-radius: 5px;
+    padding: 2px 3px;
+}
+
+.uvIndexMod{
+    display: inline;
+    background-color: yellow;
+    border-radius: 5px;
+    padding: 2px 3px;
+}
+
+.uvIndexSev{
+    display: inline;
+    background-color: red;
+    border-radius: 5px;
+    padding: 2px 3px;
+}

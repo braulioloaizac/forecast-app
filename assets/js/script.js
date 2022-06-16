@@ -17,37 +17,45 @@ searchHistory();
 //It's activated when the button from the form is clicked
 $("form").on("click", "button", function(event) {
     event.preventDefault();
+
+    
     //Gets the text written by the user
     cityName= $("input").val().trim();
 
-    //Cleans the search box
-    $("input").val('');
-
-    
-
-    //Converts all elements of the array into lowercase to be compared with the actual city
-    var citiesLow = cities.map(element => {
-        return element.toLowerCase();
-      });
-    var cityNameLow = cityName.toLowerCase();
-
-    //Checks if the city has been searched before
-    if(citiesLow.includes(cityNameLow)){
-        alert("The city has been searched before, check your previous searches")
+    //Checks if the box hasn't nothing in it
+    if(cityName === ""){
+        alert("The input is blank")        
+        return;
     }
+
     else{
-        //Gets the city location
-        getCityLocation(cityName);
+        //Cleans the search box
+        $("input").val('');
 
-        //Creates the new button
-        var newButton = $('<button type="button" class="newBtn" value= "'+cityName+'">'+ cityName +'</button>');
-        $("#search").append(newButton); 
+        
 
-        //Saves the search
-        saveSearch();
+        //Converts all elements of the array into lowercase to be compared with the actual city
+        var citiesLow = cities.map(element => {
+            return element.toLowerCase();
+        });
+        var cityNameLow = cityName.toLowerCase();
 
+        //Checks if the city has been searched before
+        if(citiesLow.includes(cityNameLow)){
+            alert("The city has been searched before, check your previous searches")
+        }
+        else{
+            //Gets the city location
+            getCityLocation(cityName);
+
+            //Creates the new button
+            var newButton = $('<button type="button" class="newBtn" value= "'+cityName+'">'+ cityName +'</button>');
+            $("#search").append(newButton); 
+
+            //Saves the search
+            saveSearch();
+        }
     }
-    
 } );
 
 //It's activated when a button from the search history is clicked

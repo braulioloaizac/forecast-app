@@ -18,8 +18,26 @@ $( "button" ).on( "click", function(event) {
     event.preventDefault();
     //Gets the text written by the user
     cityName= $("input").val().trim();
+
+    //Cleans the search box
     $("input").val('');
-    getCityLocation(cityName);
+
+    
+
+    //Converts all elements of the array into lowercase to be compared with the actual city
+    var citiesLow = cities.map(element => {
+        return element.toLowerCase();
+      });
+    var cityNameLow = cityName.toLowerCase();
+
+    //Checks if the city has been searched before
+    if(citiesLow.includes(cityNameLow)){
+        alert("The city has been searched before, check your previous searches")
+    }
+    else{
+        getCityLocation(cityName);
+    }
+    
 } );
 
 
@@ -29,17 +47,32 @@ var getCityLocation = function(cityName){
     fetch(requestUrlCity).then(function(response){
         if (response.ok){
             response.json().then(function(data){
-                var long = data[0].lon;
-                var lat = data[0].lat
-                getCityWeather(long, lat);
-                var newButton = $('<button type="button" class="btn newBtn">'+cityName+'</button>');
-                $("#search").append(newButton);
-            })
+                //See if the city exist
+                if (data.length !== 0) {
+                    
+                    //Gets the longitude of the city
+                    var long = data[0].lon;
+                    //Gets the latitude of the city
+                    var lat = data[0].lat
+                    getCityWeather(long, lat);
+                    
+                    //Creates the new button
+                    var newButton = $('<button type="button" class="btn newBtn">'+cityName+'</button>');
+                    $("#search").append(newButton); 
+                } 
+                else{
+                    alert("The city doesn't exist")
+                }
+            }  
+         )
+        
         }
         else{
             alert("Bad request");
         }
+       
     })
+    
 };
 
 

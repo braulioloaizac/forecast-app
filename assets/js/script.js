@@ -59,7 +59,7 @@ $("#search").on("click","button", function(event){
 
 var getCityLocation = function(cityName){
 
-    var requestUrlCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&appid=9013afa64d3ec46d7ba514e0136c0fba";
+    var requestUrlCity = "https://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&appid=9013afa64d3ec46d7ba514e0136c0fba";
     //Makes a request to the weather API
     fetch(requestUrlCity).then(function(response){
         if (response.ok){
@@ -115,7 +115,7 @@ var setInfo = function(data){
 
     //Gets icon image
     var icon = data.current.weather[0].icon
-    $("#icon").attr("src", "http://openweathermap.org/img/wn/"+ icon +"@2x.png");
+    $("#icon").attr("src", "https://openweathermap.org/img/wn/"+ icon +"@2x.png");
     
     //Shows the current temperature in farenheit degrees
     $("#temp-0").text(data.current.temp);
@@ -133,7 +133,7 @@ var setInfo = function(data){
         
         //Sets the icon for each day
         var iconDay = data.daily[i].weather[0].icon
-        $("#icon-"+i).attr("src", "http://openweathermap.org/img/wn/"+ iconDay +"@2x.png");
+        $("#icon-"+i).attr("src", "https://openweathermap.org/img/wn/"+ iconDay +"@2x.png");
         
         //Shows each day parameters
         $("#temp-"+i).text(data.daily[i].temp.day);

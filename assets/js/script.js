@@ -6,7 +6,7 @@ var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
 var searchHistory = function(){
     for(var i = 0; i < cities.length; i++){
-        var newButton = $('<button type="button" class="btn newBtn">'+cities[i]+'</button>');
+        var newButton = $('<button type="button" class="newBtn" value= "'+cities[i]+'">'+cities[i]+'</button>');
         $("#search").append(newButton);
 
     }
@@ -14,7 +14,8 @@ var searchHistory = function(){
 
 searchHistory();
 
-$( "button" ).on( "click", function(event) {
+//It's activated when the button from the form is clicked
+$("form").on("click", "button", function(event) {
     event.preventDefault();
     //Gets the text written by the user
     cityName= $("input").val().trim();
@@ -35,13 +36,29 @@ $( "button" ).on( "click", function(event) {
         alert("The city has been searched before, check your previous searches")
     }
     else{
+        //Gets the city location
         getCityLocation(cityName);
+
+        //Creates the new button
+        var newButton = $('<button type="button" class="newBtn" value= "'+cityName+'">'+ cityName +'</button>');
+        $("#search").append(newButton); 
+
+        //Saves the search
+        saveSearch();
+
     }
     
 } );
 
+//It's activated when a button from the search history is clicked
+$("#search").on("click","button", function(event){
+    event.preventDefault()
+    cityName = this.value;
+    getCityLocation(cityName)
+})
 
 var getCityLocation = function(cityName){
+
     var requestUrlCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&appid=9013afa64d3ec46d7ba514e0136c0fba";
     //Makes a request to the weather API
     fetch(requestUrlCity).then(function(response){
@@ -56,9 +73,6 @@ var getCityLocation = function(cityName){
                     var lat = data[0].lat
                     getCityWeather(long, lat);
                     
-                    //Creates the new button
-                    var newButton = $('<button type="button" class="btn newBtn">'+cityName+'</button>');
-                    $("#search").append(newButton); 
                 } 
                 else{
                     alert("The city doesn't exist")
@@ -128,8 +142,6 @@ var setInfo = function(data){
     }
     //Shows the info part of the page
     $("#forecast").removeClass("hide");
-    saveSearch();
-
 }
 
 function timeConverter(UNIX_timestamp){

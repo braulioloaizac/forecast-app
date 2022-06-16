@@ -91,11 +91,18 @@ img{
 
 .newBtn{
     color: aliceblue;
+    border-radius: 5px;
     background-color: rgb(0, 45, 85);
     text-transform: capitalize;
     margin: 10px 5px;
+    padding: 3px 5px;
     border: none;
 
+
+}
+
+.newBtn:hover{
+    background-color: rgb(32, 93, 146);
 }
 
 form{

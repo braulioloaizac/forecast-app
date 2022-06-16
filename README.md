@@ -10,7 +10,7 @@ The app uses the Open Weather API to get the city coordinates, weather condition
 The app saves the previous searches in localstorage and generates a button for each new city, with this he can just click it and access the data again and tells the user when a city doesn't exist (also if he don't put nothing on the box).
 
 Here's a sreenshot of the app
-![alt text](./snapshot.png "snapshot")
+![alt text](./screenshot.png "snapshot")
 
 And here's the URL of the app
 https://braulioloaizac.github.io/forecast-app/

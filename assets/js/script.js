@@ -3,7 +3,7 @@ var actualDate = "";
 //Gets the cities array from localStorage
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
-
+// Generates the previous searches buttons
 var searchHistory = function(){
     for(var i = 0; i < cities.length; i++){
         var newButton = $('<button type="button" class="newBtn" value= "'+cities[i]+'">'+cities[i]+'</button>');
@@ -105,7 +105,6 @@ var getCityWeather = function(lon, lat){
             response.json().then(function(data){
     
                 setInfo(data);
-                console.log(data)
             })
         }
         else{
@@ -136,7 +135,7 @@ var setInfo = function(data){
     var uvIndex = data.current.uvi
     $("#uvIndex").text(uvIndex);
 
-    console.log(uvIndex)
+    
     //Sets the color according the uvIndex
     if(uvIndex < 3){
         $("pre").addClass("uvIndexFav");   
